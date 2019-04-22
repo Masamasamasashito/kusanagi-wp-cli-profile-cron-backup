@@ -15,6 +15,8 @@ kusanagi上で動いているワードプレスを同じLinuxマシン内でバ�
 
 `mkdir ./backup`
 
+`cd ./backup`
+
 ### 4.wp-backup.shをコピー
 
 `wget https://github.com/Masamasamasashito/kusanagi-wp-cli-profile-cron-backup/wp-backup.sh`
