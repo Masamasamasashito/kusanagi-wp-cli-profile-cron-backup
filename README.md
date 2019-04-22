@@ -1,8 +1,9 @@
 # kusanagi-wp-cli-profile-cron-backup
 
 kusanagi上で動いているワードプレスを同じLinuxマシン内でバックアップを定期自動化するためのシェルスクリプトです。
-プロファイル別にcronでバックアップの実行、○ヶ月前よりも古いバックアップファイルの削除など、シンプルに世代管理を出来るようになっています。
-##使い方
+プロファイル別にcronでバックアップの実行、○ヶ月もしくは○時間前よりも古いバックアップファイルは全削除など、シンプルにバックアップの世代管理を出来るようになっています。wp db exportコマンドを使っているため、wp-cli必須となっています。
+
+## 設定
 
 ### 1.rootユーザーでkusanagiのLinuxにsshログイン
 Linuxのパスワード認証の無効化やroot接続の無効化は既にできている前提で進めます。
@@ -38,8 +39,13 @@ Linuxのパスワード認証の無効化やroot接続の無効化は既にで�
 
 `20 03 1-7 * 0 /home/kusanagi/プロファイル名/backup/wp-backup.sh`
 
-### 8.crontabテスト
-毎分wp-backup.shを実行
+crontabテスト 毎分wp-backup.shを実行
 
 `*/1 * * * * /home/kusanagi/プロファイル名/backup/wp-backup.sh`
 
+### 8.生成されたバックアップファイルの保存期間を決める
+
+[wp-backup.sh](https://github.com/Masamasamasashito/kusanagi-wp-cli-profile-cron-backup/blob/master/wp-backup.sh)　の４３行目で-nmin（分単位）と-ntime（日単位）、と数値を変えてファイルの保存期間を決める。（保存期間を過ぎたファイルは削除されます）
+
+例） `find $file_dir -mtime +180 | xargs rm -fv`
+180日前よりも古いファイルを全削除
