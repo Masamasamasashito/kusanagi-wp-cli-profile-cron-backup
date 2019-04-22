@@ -49,7 +49,8 @@ crontabテスト 毎分wp-backup.shを実行
 
 ### 8.生成されたバックアップファイルの保存期間を決める
 
-[wp-backup.sh](https://github.com/Masamasamasashito/kusanagi-wp-cli-profile-cron-backup/blob/master/wp-backup.sh)　の４３行目で-nmin（分単位）と-ntime（日単位）、と数値を変えてファイルの保存期間を決める。（保存期間を過ぎたファイルは削除されます）
+[wp-backup.sh](https://github.com/Masamasamasashito/kusanagi-wp-cli-profile-cron-backup/blob/master/wp-backup.sh)　の４３行目で -nmin（分単位） -ntime（日単位） と 数値 を変えてファイルの保存期間を決める。保存期間を過ぎたファイルは削除されます。
 
-例） `find $file_dir -mtime +180 | xargs rm -fv`
+例）  
+`find $file_dir -mtime +180 | xargs rm -fv`  
 180日前よりも古いファイルを全削除
