@@ -10,7 +10,7 @@ Linuxのパスワード認証の無効化やroot接続の無効化は既にで�
 
 ### 2.ファイルを配置するプロファイルディレクトリへ移動
 
-｀cd /home/kusanagi/プロファイル名`
+`cd /home/kusanagi/プロファイル名`
 
 ### 3.バックアップディレクトリを作る
 
@@ -35,9 +35,11 @@ Linuxのパスワード認証の無効化やroot接続の無効化は既にで�
 `crontab -e`
 
 毎月の第一日曜日の朝３時２０分にwp-backup.shを実行
+
 `20 03 1-7 * 0 /home/kusanagi/プロファイル名/backup/wp-backup.sh`
 
-### 8.crontabテスト向け
+### 8.crontabテスト
 毎分wp-backup.shを実行
+
 `*/1 * * * * /home/kusanagi/プロファイル名/backup/wp-backup.sh`
 
