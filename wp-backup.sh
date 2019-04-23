@@ -38,8 +38,8 @@ wp db export - | gzip > $file_dir/`date +%Y-%m-%d-%H-%M-%S-`$profile_name.sql.gz
 #ドキュメントルート内の全ファイルを圧縮アーカイブしてfile_dirに保管
 tar -zcvf $file_dir/`date +%Y-%m-%d-%H-%M-%S-`$profile_name.tar.gz $documentroot
 
-#５分前よりも古いバックアップSQLファイルと圧縮バックアップファイルを削除（mminをmtimeにかえると５日前となります）
-echo "[`date '+%Y-%m-%d %H:%M:%S'`] Delete SqlBackUpFile and DocumentRootBackUpFile before 5 minutes."
+#５分前よりも古いバックアップSQLファイルと圧縮バックアップファイルを削除（-mminを-mtimeに変えると５日前となります）
+echo "[`date '+%Y-%m-%d %H:%M:%S'`] Delete BackupFiles."
 find $file_dir -mmin +5 | xargs rm -fv
 
 echo "[`date '+%Y-%m-%d %H:%M:%S'`] Finish backup."
