@@ -1,7 +1,6 @@
 # kusanagi-wp-cli-profile-cron-backup
 
-kusanagi上で動いているワードプレスを同じLinuxマシン内でバックアッププラグインに頼らず定期自動取得するためのシェルスクリプトです。
-プロファイル別にcronでバックアップの実行、○ヶ月もしくは○時間前よりも古いバックアップファイルは全削除など、シンプルにバックアップの世代管理を行っています。wp db exportコマンドを使っているため、wp-cli必須となっています。
+kusanagi上で動いているプロファイル別のワードプレスについて、同じLinuxマシン内でバックアッププラグインに頼らず、バックアップを定期自動取得するシェルスクリプトです。cronで月に１度バックアップの実行、６ヶ月前よりも古いバックアップファイルは全削除など、ドキュメントルートではなく、プロファイルディレクトリの階層でシンプルにバックアップの世代管理を行っています。wp db exportコマンドを使っているため、wp-cli必須となっています。
 
 AWS EBSスナップショット、Azure Backup and Site Recovery 、ConohaVPSのイメージバックアップなど、各社基盤側の提供によるイメージバックアップ機能と合わせて使うことでバックアップの細かい世代管理の助けとなります。
 
@@ -19,13 +18,13 @@ Linuxのパスワード認証の無効化やroot接続の無効化は既にで�
 
 ### 3.バックアップディレクトリを作る
 
-`mkdir ./backup`
+`mkdir backup`
 
 `cd ./backup`
 
 ### 4.wp-backup.shをコピー
 
-`wget https://github.com/Masamasamasashito/kusanagi-wp-cli-profile-cron-backup/wp-backup.sh`
+`wget https://raw.githubusercontent.com/Masamasamasashito/kusanagi-wp-cli-profile-cron-backup/master/wp-backup.sh`
 
 ### 5.バックアップファイル達の保管用fileディレクトリをつくる
 
@@ -35,7 +34,15 @@ Linuxのパスワード認証の無効化やroot接続の無効化は既にで�
 
 `chown kusanagi:kusanagi wp-backup.sh file`
 
-### 7.crontabを設定する
+### 7.生成されたバックアップファイルの保存期間を決める
+
+[wp-backup.sh](https://github.com/Masamasamasashito/kusanagi-wp-cli-profile-cron-backup/blob/master/wp-backup.sh)　の４３行目で -nmin（分単位） -ntime（日単位） と 数値 を変えてファイルの保存期間を決める。保存期間を過ぎたファイルは削除されます。
+
+例）  
+`find $file_dir -mtime +180 | xargs rm -fv`  
+180日前よりも古いファイルを全削除
+
+### 8.crontabを設定する
 
 `crontab -e`
 
@@ -46,11 +53,3 @@ Linuxのパスワード認証の無効化やroot接続の無効化は既にで�
 例）   
 `*/1 * * * * /home/kusanagi/プロファイル名/backup/wp-backup.sh`  
 毎分wp-backup.shを実行
-
-### 8.生成されたバックアップファイルの保存期間を決める
-
-[wp-backup.sh](https://github.com/Masamasamasashito/kusanagi-wp-cli-profile-cron-backup/blob/master/wp-backup.sh)　の４３行目で -nmin（分単位） -ntime（日単位） と 数値 を変えてファイルの保存期間を決める。保存期間を過ぎたファイルは削除されます。
-
-例）  
-`find $file_dir -mtime +180 | xargs rm -fv`  
-180日前よりも古いファイルを全削除
